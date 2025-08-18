@@ -1,4 +1,12 @@
-include ':test'
+pluginManagement {
+  repositories {
+    gradlePluginPortal()
+    google()
+    mavenCentral()
+    mavenLocal()
+  }
+}
+
+includeBuild('burial_plugin')
 include ':burialTimer'
-include ':burial_plugin'
 include ':app'

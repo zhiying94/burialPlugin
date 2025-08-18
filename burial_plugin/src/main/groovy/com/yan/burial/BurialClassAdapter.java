@@ -14,7 +14,7 @@ public final class BurialClassAdapter extends ClassVisitor {
     private BurialExtension burialExtension;
 
     BurialClassAdapter(final ClassVisitor cv, BurialExtension burialExtension) {
-        super(Opcodes.ASM6, cv);
+        super(Opcodes.ASM9, cv);
         this.burialExtension = burialExtension;
         pluginPatch = BurialExtension.PLUGIN_LIBRARY.replace(".", "/");
     }

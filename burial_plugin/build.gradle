@@ -1,125 +1,161 @@
 apply plugin: 'groovy'
-
-dependencies {
-  implementation gradleApi()
-  implementation localGroovy()
-  implementation 'com.android.tools.build:gradle:3.1.4'
-  implementation 'com.android.tools.build:gradle-api:3.1.4'
-  implementation 'commons-io:commons-io:2.6'
-  implementation 'commons-codec:commons-codec:1.10'
-  //noinspection GradleDependency
-  implementation 'org.ow2.asm:asm:6.2.1'
-  //noinspection GradleDependency
-  implementation 'org.ow2.asm:asm-util:6.2.1'
-  //noinspection GradleDependency
-  implementation 'org.ow2.asm:asm-commons:6.2.1'
-//  implementation 'com.quinn.hunter:hunter-transform:0.9.0'
-}
+apply plugin: 'java-gradle-plugin'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+//apply plugin: 'com.gradle.plugin-publish'
 
 repositories {
-  google()
-  jcenter()
-  mavenCentral()
+    google()
+    gradlePluginPortal()
+    mavenCentral()
+}
+//buildscript {
+//    repositories {
+//        gradlePluginPortal()
+//        mavenCentral()
+//        google()
+//    }
+//    dependencies {
+//        classpath "gradle.plugin.com.gradle.publish:plugin-publish-gradle:1.1.0"
+//    }
+//}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    compileOnly 'com.android.tools.build:gradle:8.5.2'
+    compileOnly 'org.ow2.asm:asm:9.6'
+    compileOnly 'org.ow2.asm:asm-commons:9.6'
 }
 
+group = 'com.zhiy.burial'
+version = '2.0.0'
 
-apply plugin: 'maven'
-group='com.yan.burial'
-version='0.0.1'
-uploadArchives {
-  repositories {
-    mavenDeployer {
-      repository(url: uri('plugins'))
+gradlePlugin {
+    plugins {
+        burialPlugin {
+            id = 'burial-plugin'
+            implementationClass = 'com.yan.burial.BurialPlugin'
+        }
     }
-  }
+}
+
+//pluginBundle {
+//    website = 'https://github.com/zhiying94/burialPlugin'
+//    vcsUrl = 'https://github.com/zhiying94/burialPlugin'
+//    description = 'Burial Plugin 功能描述'
+//    tags = ['android', 'plugin']
+//
+//    plugins {
+//        burialPlugin {
+//            id = 'burial-plugin'          // 插件 ID，别人引用时用这个
+//            displayName = 'Burial Plugin'
+//        }
+//    }
+//}
+
+
+tasks.named('processResources') {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 //
 def userName
 def userKey
 File file = rootProject.file('local.properties')
 if (file.exists()) {
-  //加载资源
-  InputStream inputStream = rootProject.file('local.properties').newDataInputStream();
-  Properties properties = new Properties()
-  properties.load(inputStream)
+    //加载资源
+    InputStream inputStream = rootProject.file('local.properties').newDataInputStream();
+    Properties properties = new Properties()
+    properties.load(inputStream)
 
-  if (properties.containsKey("bintray.user")) {
-    userName = properties.getProperty("bintray.user")
-  }
-  if (properties.containsKey("bintray.apikey")) {
-    userKey = properties.getProperty("bintray.apikey")
-  }
+    if (properties.containsKey("bintray.user")) {
+        userName = properties.getProperty("bintray.user")
+    }
+    if (properties.containsKey("bintray.apikey")) {
+        userKey = properties.getProperty("bintray.apikey")
+    }
 }
-
-//group 'com.yan.burial'
-//version '1.1.4'
-//
-//apply plugin: 'maven-publish'
-//
-////源代码打包任务
+//// 源代码打包任务
 //task sourcesJar(type: Jar) {
-//  baseName 'test'
-//  classifier 'sources' //分类器,区分其他jar包
-//  from sourceSets.main.allSource
+//    archiveClassifier = 'sources'
+//    from sourceSets.main.allSource
 //}
 //
-////文档包任务
-//task docJar(type: Jar, dependsOn: [javadoc, groovydoc]) {
-//  baseName 'test'
-//  classifier 'doc' //分类器,区分其他jar包
-//  from javadoc.destinationDir, groovydoc.destinationDir
+//// 文档包任务
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    archiveClassifier = 'javadoc'
+//    from javadoc.destinationDir
 //}
 //
-////配置工程工件,也就是jar产出的配置
+//// 配置工件
 //artifacts {
-//  archives sourcesJar
-//  archives docJar
+//    archives sourcesJar
+//    archives javadocJar
 //}
 //
-////上传配置
+//// 发布配置
 //publishing {
-//  publications {
-//    plugin(MavenPublication) {
-//      from components.java
-//      //如果不指定，默认就是工程名
-//      artifactId 'burial-plugin'
+//    publications {
+//        maven(MavenPublication) {
+//            from components.java
+//            artifactId = 'burial-plugin'
 //
-//      artifact sourcesJar
-//      artifact docJar
+//            artifact sourcesJar
+//            artifact javadocJar
 //
-//      //pom文件配置
-//      pom.withXml {
-//        def root = asNode()
-//        def licensesNode = root.appendNode('licenses').appendNode('license')
-//        licensesNode.appendNode('name', 'Apache License, Version 2.0')
-//        licensesNode.appendNode('url', 'https://www.apache.org/licenses/LICENSE-2.0.txt')
-//        licensesNode.appendNode('distribution', 'repo')
-//        licensesNode.appendNode('comments', 'A business-friendly OSS license')
-//      }
+//            pom {
+//                name = 'Burial Plugin'
+//                description = 'A Gradle plugin for Android method timing instrumentation using ASM'
+//                url = 'https://github.com/your-username/burial-plugin'
+//
+//                licenses {
+//                    license {
+//                        name = 'Apache License, Version 2.0'
+//                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+//                        distribution = 'repo'
+//                    }
+//                }
+//
+//                developers {
+//                    developer {
+//                        id = 'yan157'
+//                        name = 'Yan'
+//                        email = 'your-email@example.com'
+//                    }
+//                }
+//
+//                scm {
+//                    connection = 'scm:git:git://github.com/your-username/burial-plugin.git'
+//                    developerConnection = 'scm:git:ssh://github.com/your-username/burial-plugin.git'
+//                    url = 'https://github.com/your-username/burial-plugin'
+//                }
+//            }
+//        }
 //    }
-//  }
+//
+//    repositories {
+//        maven {
+//            name = 'OSSRH'
+//            url = version.endsWith('SNAPSHOT') ?
+//                    'https://s01.oss.sonatype.org/content/repositories/snapshots/' :
+//                    'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+//
+//            credentials {
+//                username = findProperty('ossrhUsername') ?: System.getenv('OSSRH_USERNAME')
+//                password = findProperty('ossrhPassword') ?: System.getenv('OSSRH_PASSWORD')
+//            }
+//        }
+//    }
 //}
 //
-//apply plugin: 'com.jfrog.bintray'
+//// 签名配置 - 可选
+//signing {
+//    def signingKeyId = findProperty("signing.keyId")
+//    def signingPassword = findProperty("signing.password")
+//    def signingSecretKeyRingFile = findProperty("signing.secretKeyRingFile")
 //
-//bintray {
-//  user = userName
-//  key = userKey
-//  //上传的内容
-//  publications = ['plugin']
-//  pkg {
-//    repo = 'maven' //需要上传的仓库名
-//    name = 'burial-plugin' //上传到jcenter的项目名
-//    userOrg = 'yan157' //可选的,不传的话默认是上面的user
-//    licenses = ['Apache-2.0'] //开源许可
-//    //这里的地址是不会验证的,随便输入都可以,不配置也可以
-//    vcsUrl = 'https://xxx.git'
-//    version {
-//      //name = '1.0-Final'//使用外面的version
-//      desc = 'burial-plugin'
-//      released = new Date()
-//      vcsTag = version //版本控制里面的版本控制,比如svn,git
-//      attributes = ['gradle-plugin': version]
+//    if (signingKeyId && signingPassword && signingSecretKeyRingFile) {
+//        useInMemoryPgpKeys(signingKeyId, signingSecretKeyRingFile, signingPassword)
+//        sign publishing.publications.maven
 //    }
-//  }
 //}

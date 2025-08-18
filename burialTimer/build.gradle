@@ -1,6 +1,8 @@
-apply plugin: 'com.android.library'
-
-apply plugin: 'com.novoda.bintray-release'
+plugins {
+  id 'com.android.library'
+  id 'maven-publish'
+  id 'signing'
+}
 
 def userName
 def userKey
@@ -19,26 +21,16 @@ if (file.exists()) {
   }
 }
 
-publish {
-  userOrg = 'yan157'
-  groupId = 'com.yan.burial.method.timer'
-  bintrayUser = userName
-  bintrayKey = userKey
-  repoName = 'maven'
-  artifactId = 'burialtimer'
-  dryRun = false
-  publishVersion = '1.0.8'
-  desc = ""
-  website = 'https://github.com/genius158/burialPlugin'
-}
+group = 'com.yan.burial.method.timer'
+version = '2.0.0'
 
 android {
-  compileSdkVersion 29
-  buildToolsVersion "29.0.3"
+  namespace 'com.yan.burial.method.timer'
+  compileSdk 34
 
   defaultConfig {
-    minSdkVersion 15
-    targetSdkVersion 29
+    minSdk 21
+    targetSdk 34
     versionCode 1
     versionName "1.0"
 
@@ -54,9 +46,7 @@ android {
     }
   }
 
-  lintOptions {
-    abortOnError false
-  }
+  lint { abortOnError false }
 }
 
 dependencies {
@@ -64,3 +54,88 @@ dependencies {
 repositories {
   mavenCentral()
 }
+
+// 源代码打包任务
+task sourcesJar(type: Jar) {
+  archiveClassifier = 'sources'
+  from android.sourceSets.main.java.srcDirs
+}
+
+// 文档包任务 - Android 库需要特殊处理
+task androidJavadocs(type: Javadoc) {
+  source = android.sourceSets.main.java.srcDirs
+  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+  android.libraryVariants.all { variant ->
+    classpath += variant.javaCompileProvider.get().classpath
+  }
+  exclude '**/R.html', '**/BuildConfig.html'
+}
+
+task javadocJar(type: Jar, dependsOn: androidJavadocs) {
+  archiveClassifier = 'javadoc'
+  from androidJavadocs.destinationDir
+}
+
+// 发布配置 - 暂时注释，专注于插件发布
+/*
+afterEvaluate {
+  publishing {
+    publications {
+      release(MavenPublication) {
+        from components.getByName("release")
+        artifactId = 'burial-timer'
+        
+        artifact sourcesJar
+        artifact javadocJar
+        
+        pom {
+          name = 'Burial Timer'
+          description = 'Android method timing library for performance monitoring'
+          url = 'https://github.com/your-username/burial-plugin'
+          
+          licenses {
+            license {
+              name = 'Apache License, Version 2.0'
+              url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+              distribution = 'repo'
+            }
+          }
+          
+          developers {
+            developer {
+              id = 'yan157'
+              name = 'Yan'
+              email = 'your-email@example.com'
+            }
+          }
+          
+          scm {
+            connection = 'scm:git:git://github.com/your-username/burial-plugin.git'
+            developerConnection = 'scm:git:ssh://github.com/your-username/burial-plugin.git'
+            url = 'https://github.com/your-username/burial-plugin'
+          }
+        }
+      }
+    }
+    
+    repositories {
+      maven {
+        name = 'OSSRH'
+        url = version.endsWith('SNAPSHOT') ? 
+          'https://s01.oss.sonatype.org/content/repositories/snapshots/' :
+          'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+        
+        credentials {
+          username = findProperty('ossrhUsername') ?: System.getenv('OSSRH_USERNAME')
+          password = findProperty('ossrhPassword') ?: System.getenv('OSSRH_PASSWORD')
+        }
+      }
+    }
+  }
+  
+  // 签名配置
+  signing {
+    sign publishing.publications.release
+  }
+}
+*/

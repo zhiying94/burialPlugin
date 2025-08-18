@@ -17,7 +17,7 @@ public final class BurialMethodAdapter extends LocalVariablesSorter implements O
 
   public BurialMethodAdapter(String className, String methodName, int access, String desc,
       MethodVisitor mv, BurialExtension burialExtension) {
-    super(Opcodes.ASM5, access, desc, mv);
+    super(Opcodes.ASM9, access, desc, mv);
     this.classNamePath = className.replace(".", "/");
     this.methodName = methodName;
     this.methodDes = desc;

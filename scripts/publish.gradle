@@ -1,0 +1,50 @@
+// 发布脚本 - 用于简化发布流程
+// 使用方法: ./gradlew -b scripts/publish.gradle publishToMavenCentral
+
+allprojects {
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
+    
+    // 配置签名
+    signing {
+        def signingKeyId = findProperty("signing.keyId")
+        def signingPassword = findProperty("signing.password")
+        def signingSecretKeyRingFile = findProperty("signing.secretKeyRingFile")
+        
+        if (signingKeyId && signingPassword && signingSecretKeyRingFile) {
+            useInMemoryPgpKeys(signingKeyId, signingSecretKeyRingFile, signingPassword)
+        }
+    }
+}
+
+// 发布到 Maven Central 的任务
+task publishToMavenCentral {
+    dependsOn ':burial_plugin:publishMavenPublicationToOSSRHRepository'
+    dependsOn ':burialTimer:publishReleasePublicationToOSSRHRepository'
+    
+    doLast {
+        println "✅ 插件和库已发布到 Maven Central"
+        println "📦 burial-plugin: ${project(':burial_plugin').version}"
+        println "📦 burial-timer: ${project(':burialTimer').version}"
+        println ""
+        println "🔗 插件使用方式:"
+        println "plugins {"
+        println "    id 'com.yan.burial.burial-plugin' version '${project(':burial_plugin').version}'"
+        println "}"
+        println ""
+        println "📚 库使用方式:"
+        println "implementation 'com.yan.burial.method.timer:burial-timer:${project(':burialTimer').version}'"
+    }
+}
+
+// 发布到本地 Maven 仓库的任务
+task publishToLocalMaven {
+    dependsOn ':burial_plugin:publishMavenPublicationToMavenLocal'
+    dependsOn ':burialTimer:publishReleasePublicationToMavenLocal'
+    
+    doLast {
+        println "✅ 插件和库已发布到本地 Maven 仓库"
+        println "📦 burial-plugin: ${project(':burial_plugin').version}"
+        println "📦 burial-timer: ${project(':burialTimer').version}"
+    }
+}
