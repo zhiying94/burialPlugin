@@ -46,13 +46,14 @@
 in project mode
 ```
 plugins {
-    id "com.zhiy.burial" version "2.0.0"
+     id("com.zhiy.burial") version "2.0.0" apply false
 }
 ```
  in app module
 ```
-apply plugin: 'burial-plugin'
-
+plugins {
+    id("com.zhiy.burial")
+}
 burialExt {
     logEnable = true
     // 是否在代码里插入方法名，提高性能，但是会暴露方法的原本信息
