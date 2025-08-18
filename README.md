@@ -45,7 +45,9 @@
 ## how to use 
 in project mode
 ```
-    classpath 'com.yan.burial:burial-plugin:1.1.4'
+plugins {
+    id "com.zhiy.burial" version "2.0.0"
+}
 ```
  in app module
 ```
