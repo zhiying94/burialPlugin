@@ -1,4 +1,4 @@
 jvm:
   - 17
 install:
-  - ./gradlew -S -i :burialTimer:assembleRelease
+  - ./gradlew -S -i :burialTimer:publishReleasePublicationToMavenLocal
