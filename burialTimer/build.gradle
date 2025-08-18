@@ -22,7 +22,7 @@ if (file.exists()) {
 }
 
 group = 'com.yan.burial.method.timer'
-version = '2.0.0'
+version = '2.0.1'
 
 android {
   namespace 'com.yan.burial.method.timer'
