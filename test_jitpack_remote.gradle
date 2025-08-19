@@ -1,0 +1,37 @@
+// 测试 JitPack 远程依赖的脚本
+// 使用方法: ./gradlew -b test_jitpack_remote.gradle testRemoteDeps
+
+plugins {
+    id 'java'
+}
+
+repositories {
+    maven { url "https://jitpack.io" }
+    mavenCentral()
+    mavenLocal()
+}
+
+configurations {
+    testDeps
+}
+
+dependencies {
+    // 测试 burialTimer 远程依赖
+    testDeps 'com.github.zhiying94:burialTimer:2.0.4'
+    
+    // 测试插件类路径
+    testDeps 'com.github.zhiying94:burial-plugin:2.0.11'
+}
+
+task testRemoteDeps {
+    doLast {
+        println "开始测试远程依赖..."
+        
+        // 检查依赖是否解析成功
+        configurations.testDeps.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+            println "解析的依赖: ${artifact.moduleVersion.id.group}:${artifact.moduleVersion.id.name}:${artifact.moduleVersion.id.version}"
+        }
+        
+        println "远程依赖测试完成！"
+    }
+}

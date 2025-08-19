@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.github.zhiying94'
-version = '2.0.3'
+version = '2.0.4'
 
 android {
   namespace 'com.yan.burial.method.timer'
@@ -58,17 +58,19 @@ afterEvaluate {
         groupId = 'com.github.zhiying94'
         artifactId = 'burialTimer'
         version = project.version
+        artifact sourcesJar
+        // 暂时注释掉 Javadoc
+        // artifact javadocJar
         
         pom {
           name = 'Burial Timer'
-          description = 'Android method timing library for performance monitoring'
+          description = 'A library for method timing and monitoring'
           url = 'https://github.com/zhiying94/burialPlugin'
           
           licenses {
             license {
-              name = 'Apache License, Version 2.0'
-              url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
-              distribution = 'repo'
+              name = 'The Apache License, Version 2.0'
+              url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
             }
           }
           
@@ -76,12 +78,13 @@ afterEvaluate {
             developer {
               id = 'zhiying94'
               name = 'zhiying94'
+              email = 'zhiying94@github.com'
             }
           }
           
           scm {
             connection = 'scm:git:git://github.com/zhiying94/burialPlugin.git'
-            developerConnection = 'scm:git:ssh://github.com/zhiying94/burialPlugin.git'
+            developerConnection = 'scm:git:ssh://github.com:zhiying94/burialPlugin.git'
             url = 'https://github.com/zhiying94/burialPlugin'
           }
         }

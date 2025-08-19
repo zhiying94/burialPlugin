@@ -1,7 +1,15 @@
+// buildscript {
+//   dependencies {
+//     classpath project(':burial_plugin')
+//   }
+// }
+
 plugins {
   id 'com.android.application'
   id 'org.jetbrains.kotlin.android'
 }
+
+// apply plugin: 'com.github.zhiying94.burial-plugin'
 
 android {
   namespace 'com.burial.test'
@@ -52,3 +60,11 @@ repositories {
   mavenLocal()
   maven { url "https://jitpack.io" }
 }
+
+// 配置插件
+// burialExt {
+//   enable = true
+//   logLevel = 'DEBUG'
+//   includePackages = ['com.burial.test']
+//   excludePackages = ['com.burial.test.ignorelist']
+// }
