@@ -4,8 +4,5 @@ jdk:
 before_install:
   - chmod +x ./gradlew
 
-install:
-  - ./gradlew --no-daemon clean
-
 script:
   - ./gradlew --no-daemon :burial_plugin:build :burialTimer:build --stacktrace --info
