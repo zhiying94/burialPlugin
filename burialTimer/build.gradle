@@ -1,24 +1,6 @@
 plugins {
   id 'com.android.library'
   id 'maven-publish'
-  id 'signing'
-}
-
-def userName
-def userKey
-File file = rootProject.file('local.properties')
-if (file.exists()) {
-  //加载资源
-  InputStream inputStream = rootProject.file('local.properties').newDataInputStream();
-  Properties properties = new Properties()
-  properties.load(inputStream)
-
-  if (properties.containsKey("bintray.user")) {
-    userName = properties.getProperty("bintray.user")
-  }
-  if (properties.containsKey("bintray.apikey")) {
-    userKey = properties.getProperty("bintray.apikey")
-  }
 }
 
 group = 'com.github.zhiying94'
@@ -39,7 +21,6 @@ android {
   }
 
   buildTypes {
-
     release {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -57,6 +38,7 @@ android {
 
 dependencies {
 }
+
 repositories {
   mavenCentral()
 }
@@ -67,37 +49,20 @@ task sourcesJar(type: Jar) {
   from android.sourceSets.main.java.srcDirs
 }
 
-// 文档包任务 - Android 库需要特殊处理
-task androidJavadocs(type: Javadoc) {
-  source = android.sourceSets.main.java.srcDirs
-  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-  android.libraryVariants.all { variant ->
-    classpath += variant.javaCompileProvider.get().classpath
-  }
-  exclude '**/R.html', '**/BuildConfig.html'
-}
-
-task javadocJar(type: Jar, dependsOn: androidJavadocs) {
-  archiveClassifier = 'javadoc'
-  from androidJavadocs.destinationDir
-}
-
-// 发布配置 - 暂时注释，专注于插件发布
-/*
+// JitPack 发布配置
 afterEvaluate {
   publishing {
     publications {
       release(MavenPublication) {
         from components.getByName("release")
-        artifactId = 'burial-timer'
-        
-        artifact sourcesJar
-        artifact javadocJar
+        groupId = 'com.github.zhiying94'
+        artifactId = 'burialTimer'
+        version = project.version
         
         pom {
           name = 'Burial Timer'
           description = 'Android method timing library for performance monitoring'
-          url = 'https://github.com/your-username/burial-plugin'
+          url = 'https://github.com/zhiying94/burialPlugin'
           
           licenses {
             license {
@@ -109,51 +74,17 @@ afterEvaluate {
           
           developers {
             developer {
-              id = 'yan157'
-              name = 'Yan'
-              email = 'your-email@example.com'
+              id = 'zhiying94'
+              name = 'zhiying94'
             }
           }
           
           scm {
-            connection = 'scm:git:git://github.com/your-username/burial-plugin.git'
-            developerConnection = 'scm:git:ssh://github.com/your-username/burial-plugin.git'
-            url = 'https://github.com/your-username/burial-plugin'
+            connection = 'scm:git:git://github.com/zhiying94/burialPlugin.git'
+            developerConnection = 'scm:git:ssh://github.com/zhiying94/burialPlugin.git'
+            url = 'https://github.com/zhiying94/burialPlugin'
           }
         }
-      }
-    }
-    
-    repositories {
-      maven {
-        name = 'OSSRH'
-        url = version.endsWith('SNAPSHOT') ? 
-          'https://s01.oss.sonatype.org/content/repositories/snapshots/' :
-          'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
-        
-        credentials {
-          username = findProperty('ossrhUsername') ?: System.getenv('OSSRH_USERNAME')
-          password = findProperty('ossrhPassword') ?: System.getenv('OSSRH_PASSWORD')
-        }
-      }
-    }
-  }
-  
-  // 签名配置
-  signing {
-    sign publishing.publications.release
-  }
-}
-*/
-
-afterEvaluate {
-  publishing {
-    publications {
-      release(MavenPublication) {
-        from components.getByName("release")
-        groupId = 'com.github.zhiying94'
-        artifactId = 'burialTimer'
-        version = project.version
       }
     }
   }

@@ -2,7 +2,6 @@ plugins {
     id 'groovy'
     id 'java-gradle-plugin'
     id 'maven-publish'
-    id 'com.gradle.plugin-publish' version '1.2.1'
 }
 
 repositories {
@@ -23,15 +22,12 @@ group = 'com.github.zhiying94'
 version = '2.0.10'
 
 gradlePlugin {
-    website = 'https://github.com/zhiying94/burialPlugin'
-    vcsUrl = 'https://github.com/zhiying94/burialPlugin.git'
     plugins {
         burialPlugin {
-            id = 'com.github.zhiying94.burial-plugin'
+            id = 'io.github.zhiying94.burial-plugin'
             displayName = 'Burial Plugin'
             description = 'A Gradle plugin for method timing and monitoring'
             implementationClass = 'com.yan.burial.BurialPlugin'
-            tags = ['android', 'performance', 'monitoring']
         }
     }
 }
@@ -40,7 +36,7 @@ tasks.named('processResources') {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-// 添加 JitPack 发布配置
+// JitPack 发布配置
 afterEvaluate {
     publishing {
         publications {
@@ -50,7 +46,6 @@ afterEvaluate {
                 artifactId = 'burial-plugin'
                 version = project.version
                 
-                // 添加插件元数据
                 pom {
                     name = 'Burial Plugin'
                     description = 'A Gradle plugin for method timing and monitoring'
@@ -61,6 +56,19 @@ afterEvaluate {
                             name = 'The Apache License, Version 2.0'
                             url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                         }
+                    }
+                    
+                    developers {
+                        developer {
+                            id = 'zhiying94'
+                            name = 'zhiying94'
+                        }
+                    }
+                    
+                    scm {
+                        connection = 'scm:git:git://github.com/zhiying94/burialPlugin.git'
+                        developerConnection = 'scm:git:ssh://github.com/zhiying94/burialPlugin.git'
+                        url = 'https://github.com/zhiying94/burialPlugin'
                     }
                 }
             }

@@ -1,7 +1,6 @@
 plugins {
   id 'com.android.application'
   id 'org.jetbrains.kotlin.android'
-  id 'com.github.zhiying94.burial-plugin' version '2.0.10'
 }
 
 android {
@@ -43,24 +42,15 @@ dependencies {
   implementation 'org.apache.commons:commons-lang3:3.13.0'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation 'androidx.annotation:annotation:1.7.1'
-  implementation 'com.github.zhiying94.burialPlugin:burialTimer:2.0.5'
+  // 使用本地模块依赖
+  implementation project(':burialTimer')
 }
 
 repositories {
   google()
   mavenCentral()
-//  mavenLocal()
+  mavenLocal()
   maven { url "https://jitpack.io" }
-}
-
-burialExt {
-  logEnable = true
-  // 是否在代码里插入方法名，提高性能，但是会暴露方法的原本信息
-  listenerWithMethodDetail = true
-  // 只插桩到当前配置类，不为空，ignoreList失效
-//  foreList = ['com.burial.test.TestView']
-  // 插桩忽略名单
-  ignoreList = ['com.burial.test.ignorelist']
 }
 
 
