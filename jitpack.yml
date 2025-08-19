@@ -1,10 +1,9 @@
 jvm:
   - 17
-install:
-  - ./gradlew -S -i :burial_plugin:publishReleasePublicationToMavenLocal
-  - ./gradlew -S -i :burialTimer:publishReleasePublicationToMavenLocal
+
 before_install:
   - ./gradlew clean
+
 build:
   - ./gradlew :burial_plugin:build
   - ./gradlew :burialTimer:build
