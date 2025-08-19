@@ -1,0 +1,76 @@
+// 测试远程插件和依赖的脚本
+// 使用方法: ./gradlew -b test_remote_plugin.gradle testRemotePlugin
+
+buildscript {
+    repositories {
+        maven { url 'https://jitpack.io' }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+    dependencies {
+        // 测试远程插件依赖
+        classpath 'com.github.zhiying94:burial-plugin:2.0.17'
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+// 应用远程插件
+apply plugin: 'com.github.zhiying94.burial-plugin'
+
+repositories {
+    maven { url 'https://jitpack.io' }
+    mavenCentral()
+}
+
+dependencies {
+    // 测试远程库依赖
+    implementation 'com.github.zhiying94:burialTimer:2.0.17'
+}
+
+// 配置插件
+burialExt {
+    enable = true
+    logLevel = 'DEBUG'
+    includePackages = ['com.burial.test']
+    excludePackages = ['com.burial.test.ignorelist']
+}
+
+task testRemotePlugin {
+    doLast {
+        println "🚀 测试远程插件和依赖..."
+        
+        // 检查插件是否正确应用
+        if (project.plugins.hasPlugin('com.github.zhiying94.burial-plugin')) {
+            println "✅ 远程插件应用成功: com.github.zhiying94.burial-plugin"
+        } else {
+            println "❌ 远程插件应用失败"
+        }
+        
+        // 检查依赖是否解析成功
+        try {
+            configurations.implementation.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+                if (artifact.name == 'burialTimer') {
+                    println "✅ 远程依赖解析成功: ${artifact.moduleVersion.id}"
+                }
+            }
+        } catch (Exception e) {
+            println "❌ 远程依赖解析失败: ${e.message}"
+        }
+        
+        // 检查插件配置
+        if (project.hasProperty('burialExt')) {
+            println "✅ 插件配置成功"
+            println "   - enable: ${burialExt.enable}"
+            println "   - logLevel: ${burialExt.logLevel}"
+            println "   - includePackages: ${burialExt.includePackages}"
+            println "   - excludePackages: ${burialExt.excludePackages}"
+        } else {
+            println "❌ 插件配置失败"
+        }
+        
+        println "🎉 远程插件和依赖测试完成！"
+    }
+}
