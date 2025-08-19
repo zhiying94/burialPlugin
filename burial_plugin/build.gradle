@@ -19,7 +19,7 @@ dependencies {
 }
 
 group = 'com.github.zhiying94'
-version = '2.0.13'
+version = '2.0.14'
 
 gradlePlugin {
     plugins {
