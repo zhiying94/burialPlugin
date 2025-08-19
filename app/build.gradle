@@ -1,7 +1,7 @@
 plugins {
   id 'com.android.application'
   id 'org.jetbrains.kotlin.android'
-  id 'com.zhiy.burial'
+  id 'io.github.zhiying94.burial'
 }
 
 android {
