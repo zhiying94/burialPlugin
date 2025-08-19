@@ -24,7 +24,7 @@ version = '2.0.15'
 gradlePlugin {
     plugins {
         burialPlugin {
-            id = 'io.github.zhiying94.burial-plugin'
+            id = 'com.github.zhiying94.burial-plugin'
             displayName = 'Burial Plugin'
             description = 'A Gradle plugin for method timing and monitoring'
             implementationClass = 'com.yan.burial.BurialPlugin'

@@ -5,4 +5,4 @@ before_install:
   - ./gradlew clean
 
 build:
-  - ./gradlew build
+  - ./gradlew :burial_plugin:build :burialTimer:build
