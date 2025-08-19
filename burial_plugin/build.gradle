@@ -20,14 +20,14 @@ dependencies {
 }
 
 group = 'com.github.zhiying94'
-version = '2.0.5'
+version = '2.0.9'
 
 gradlePlugin {
     website = 'https://github.com/zhiying94/burialPlugin'
     vcsUrl = 'https://github.com/zhiying94/burialPlugin.git'
     plugins {
         burialPlugin {
-            id = 'com.github.zhiying94.burialPlugin.burial-plugin'
+            id = 'com.github.zhiying94.burial-plugin'
             displayName = 'Burial Plugin'
             description = 'A Gradle plugin for method timing and monitoring'
             implementationClass = 'com.yan.burial.BurialPlugin'
@@ -51,28 +51,6 @@ afterEvaluate {
                 version = project.version
                 
                 // 添加插件元数据
-                pom {
-                    name = 'Burial Plugin'
-                    description = 'A Gradle plugin for method timing and monitoring'
-                    url = 'https://github.com/zhiying94/burialPlugin'
-                    
-                    licenses {
-                        license {
-                            name = 'The Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        }
-                    }
-                }
-            }
-            
-            // 添加 Gradle 插件发布
-            pluginMaven(MavenPublication) {
-                groupId = 'com.github.zhiying94'
-                artifactId = 'burial-plugin'
-                version = project.version
-                
-                from components.getByName("java")
-                
                 pom {
                     name = 'Burial Plugin'
                     description = 'A Gradle plugin for method timing and monitoring'
