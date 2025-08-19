@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.github.zhiying94'
-version = '2.0.6'
+version = '2.0.13'
 
 android {
   namespace 'com.yan.burial.method.timer'

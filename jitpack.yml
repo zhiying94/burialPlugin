@@ -5,8 +5,7 @@ before_install:
   - ./gradlew clean
 
 install:
-  - ./gradlew -S -i :burial_plugin:publishToMavenLocal
-  - ./gradlew -S -i :burialTimer:publishReleasePublicationToMavenLocal
+  - ./gradlew -S -i publishToMavenLocal
 
 build:
   - ./gradlew :burial_plugin:build

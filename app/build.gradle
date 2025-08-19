@@ -53,7 +53,7 @@ dependencies {
   implementation 'androidx.annotation:annotation:1.7.1'
   // 等待 JitPack 构建完成后切换到远程依赖
   implementation project(':burialTimer')
-  // implementation 'com.github.zhiying94:burialTimer:2.0.6'
+  // implementation 'com.github.zhiying94:burialTimer:2.0.13'
 }
 
 repositories {
