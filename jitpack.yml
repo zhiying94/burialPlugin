@@ -1,5 +1,5 @@
-jvm:
-  - 17
+jdk:
+  - openjdk17
 
 before_install:
   - chmod +x ./gradlew
