@@ -8,6 +8,5 @@ pluginManagement {
   }
 }
 
-includeBuild('burial_plugin')
 include ':burialTimer'
 include ':app'
