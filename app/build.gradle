@@ -1,7 +1,7 @@
 plugins {
   id 'com.android.application'
   id 'org.jetbrains.kotlin.android'
-  id 'io.github.zhiying94.burial'
+  id 'com.github.zhiying94.burial-plugin' version '2.0.5'
 }
 
 android {
@@ -43,13 +43,14 @@ dependencies {
   implementation 'org.apache.commons:commons-lang3:3.13.0'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation 'androidx.annotation:annotation:1.7.1'
-  implementation project(":burialTimer")
+  implementation 'com.github.zhiying94.burialPlugin:burialTimer:2.0.5'
 }
 
 repositories {
   google()
   mavenCentral()
   mavenLocal()
+  maven { url "https://jitpack.io" }
 }
 
 burialExt {

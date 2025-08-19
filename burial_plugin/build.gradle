@@ -20,14 +20,14 @@ dependencies {
 }
 
 group = 'com.github.zhiying94'
-version = '2.0.3'
+version = '2.0.5'
 
 gradlePlugin {
     website = 'https://github.com/zhiying94/burialPlugin'
     vcsUrl = 'https://github.com/zhiying94/burialPlugin.git'
     plugins {
         burialPlugin {
-            id = 'io.github.zhiying94.burial'
+            id = 'com.github.zhiying94.burial-plugin'
             displayName = 'Burial Plugin'
             description = 'A Gradle plugin for method timing and monitoring'
             implementationClass = 'com.yan.burial.BurialPlugin'
@@ -40,23 +40,6 @@ tasks.named('processResources') {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-def userName
-def userKey
-File file = rootProject.file('local.properties')
-if (file.exists()) {
-    //加载资源
-    InputStream inputStream = rootProject.file('local.properties').newDataInputStream();
-    Properties properties = new Properties()
-    properties.load(inputStream)
-
-    if (properties.containsKey("bintray.user")) {
-        userName = properties.getProperty("bintray.user")
-    }
-    if (properties.containsKey("bintray.apikey")) {
-        userKey = properties.getProperty("bintray.apikey")
-    }
-}
-
 // 添加 JitPack 发布配置
 afterEvaluate {
     publishing {
@@ -66,6 +49,20 @@ afterEvaluate {
                 groupId = 'com.github.zhiying94'
                 artifactId = 'burial-plugin'
                 version = project.version
+                
+                // 添加插件元数据
+                pom {
+                    name = 'Burial Plugin'
+                    description = 'A Gradle plugin for method timing and monitoring'
+                    url = 'https://github.com/zhiying94/burialPlugin'
+                    
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                }
             }
         }
     }

@@ -4,9 +4,9 @@ pluginManagement {
     google()
     mavenCentral()
     mavenLocal()
+    maven { url "https://jitpack.io" }
   }
 }
 
-includeBuild('burial_plugin')
 include ':burialTimer'
 include ':app'
