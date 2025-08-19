@@ -1,6 +1,7 @@
 plugins {
     id 'groovy'
     id 'java-gradle-plugin'
+    id 'maven-publish'
     id 'com.gradle.plugin-publish' version '1.2.1'
 }
 
@@ -18,19 +19,19 @@ dependencies {
     compileOnly 'org.ow2.asm:asm-commons:9.6'
 }
 
-group = 'com.zhiy.burial'
-version = '2.0.0'
+group = 'io.github.zhiying94.burial'
+version = '2.0.2'
 
 gradlePlugin {
     website = 'https://github.com/zhiying94/burialPlugin'
-    vcsUrl = 'https://github.com/zhiying94/burialPlugin'
+    vcsUrl = 'https://github.com/zhiying94/burialPlugin.git'
     plugins {
         burialPlugin {
-            id = 'com.zhiy.burial'
+            id = 'io.github.zhiying94.burial'
             displayName = 'Burial Plugin'
-            description = 'Android method timing instrumentation via ASM with AGP 8 instrumentation API'
+            description = 'A Gradle plugin for method timing and monitoring'
             implementationClass = 'com.yan.burial.BurialPlugin'
-            tags.set(['android','asm','instrumentation','bytecode','performance'])
+            tags = ['android', 'performance', 'monitoring']
         }
     }
 }
@@ -53,5 +54,19 @@ if (file.exists()) {
     }
     if (properties.containsKey("bintray.apikey")) {
         userKey = properties.getProperty("bintray.apikey")
+    }
+}
+
+// 添加 JitPack 发布配置
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.getByName("java")
+                groupId = 'io.github.zhiying94.burial'
+                artifactId = 'burial-plugin'
+                version = project.version
+            }
+        }
     }
 }
