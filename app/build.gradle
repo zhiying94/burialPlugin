@@ -9,6 +9,7 @@ plugins {
   id 'org.jetbrains.kotlin.android'
 }
 
+// 等待 JitPack 构建完成后启用
 // apply plugin: 'com.github.zhiying94.burial-plugin'
 
 android {
@@ -50,8 +51,9 @@ dependencies {
   implementation 'org.apache.commons:commons-lang3:3.13.0'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation 'androidx.annotation:annotation:1.7.1'
-  // 使用本地模块依赖
+  // 等待 JitPack 构建完成后切换到远程依赖
   implementation project(':burialTimer')
+  // implementation 'com.github.zhiying94:burialTimer:2.0.6'
 }
 
 repositories {
@@ -61,7 +63,7 @@ repositories {
   maven { url "https://jitpack.io" }
 }
 
-// 配置插件
+// 等待 JitPack 构建完成后启用插件配置
 // burialExt {
 //   enable = true
 //   logLevel = 'DEBUG'

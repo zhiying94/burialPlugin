@@ -1,0 +1,75 @@
+// 验证 JitPack 构建状态的脚本
+// 使用方法: ./gradlew -b verify_jitpack_build.gradle checkBuildStatus
+
+plugins {
+    id 'java'
+}
+
+repositories {
+    maven { url "https://jitpack.io" }
+    mavenCentral()
+    mavenLocal()
+}
+
+configurations {
+    testDeps
+}
+
+dependencies {
+    // 测试 burialTimer 远程依赖
+    testDeps 'com.github.zhiying94:burialTimer:2.0.6'
+    
+    // 测试插件类路径
+    testDeps 'com.github.zhiying94:burial-plugin:2.0.13'
+}
+
+task checkBuildStatus {
+    doLast {
+        println "开始检查 JitPack 构建状态..."
+        
+        try {
+            // 检查依赖是否解析成功
+            configurations.testDeps.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+                println "✅ 成功解析依赖: ${artifact.moduleVersion.id.group}:${artifact.moduleVersion.id.name}:${artifact.moduleVersion.id.version}"
+            }
+            println "🎉 JitPack 构建成功！远程依赖可用！"
+        } catch (Exception e) {
+            println "❌ JitPack 构建失败或未完成: ${e.message}"
+            println "请等待 JitPack 构建完成，或检查构建日志"
+        }
+    }
+}
+
+task testBurialTimer {
+    doLast {
+        println "测试 burialTimer 依赖..."
+        try {
+            def deps = configurations.testDeps.resolvedConfiguration.resolvedArtifacts
+            def burialTimer = deps.find { it.name == 'burialTimer' }
+            if (burialTimer) {
+                println "✅ burialTimer 依赖可用: ${burialTimer.moduleVersion.id.version}"
+            } else {
+                println "❌ burialTimer 依赖不可用"
+            }
+        } catch (Exception e) {
+            println "❌ 测试失败: ${e.message}"
+        }
+    }
+}
+
+task testPlugin {
+    doLast {
+        println "测试插件依赖..."
+        try {
+            def deps = configurations.testDeps.resolvedConfiguration.resolvedArtifacts
+            def plugin = deps.find { it.name == 'burial-plugin' }
+            if (plugin) {
+                println "✅ 插件依赖可用: ${plugin.moduleVersion.id.version}"
+            } else {
+                println "❌ 插件依赖不可用"
+            }
+        } catch (Exception e) {
+            println "❌ 测试失败: ${e.message}"
+        }
+    }
+}

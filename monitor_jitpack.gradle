@@ -1,0 +1,94 @@
+// 持续监控 JitPack 构建状态的脚本
+// 使用方法: ./gradlew -b monitor_jitpack.gradle monitorBuild
+
+plugins {
+    id 'java'
+}
+
+repositories {
+    maven { url "https://jitpack.io" }
+    mavenCentral()
+    mavenLocal()
+}
+
+configurations {
+    testDeps
+}
+
+dependencies {
+    // 测试 burialTimer 远程依赖
+    testDeps 'com.github.zhiying94:burialTimer:2.0.5'
+    
+    // 测试插件类路径
+    testDeps 'com.github.zhiying94:burial-plugin:2.0.12'
+}
+
+task monitorBuild {
+    doLast {
+        println "🔄 开始持续监控 JitPack 构建状态..."
+        println "📦 监控版本: burialTimer:2.0.5, burial-plugin:2.0.12"
+        println "⏰ 每 30 秒检查一次，最多等待 10 分钟"
+        println ""
+        
+        int maxAttempts = 20  // 10 分钟 (20 * 30 秒)
+        int attempt = 0
+        boolean success = false
+        
+        while (attempt < maxAttempts && !success) {
+            attempt++
+            println "🔍 第 ${attempt} 次检查 (${new Date().format('HH:mm:ss')})..."
+            
+            try {
+                // 尝试解析依赖
+                def artifacts = configurations.testDeps.resolvedConfiguration.resolvedArtifacts
+                
+                if (artifacts.size() >= 2) {
+                    println "✅ JitPack 构建成功！"
+                    println "📋 成功解析的依赖："
+                    artifacts.each { artifact ->
+                        println "   - ${artifact.moduleVersion.id.group}:${artifact.moduleVersion.id.name}:${artifact.moduleVersion.id.version}"
+                    }
+                    success = true
+                    break
+                } else {
+                    println "⚠️  部分依赖解析成功，继续等待..."
+                }
+                
+            } catch (Exception e) {
+                println "❌ 构建未完成: ${e.message.contains('401') ? '401 Unauthorized - 构建中' : e.message}"
+                
+                if (attempt < maxAttempts) {
+                    println "⏳ 等待 30 秒后重试..."
+                    Thread.sleep(30000)  // 等待 30 秒
+                }
+            }
+        }
+        
+        if (!success) {
+            println ""
+            println "❌ 超时：构建可能失败或需要更长时间"
+            println "🔗 请手动检查: https://jitpack.io/com/github/zhiying94/burialPlugin"
+            throw new GradleException("JitPack 构建超时")
+        } else {
+            println ""
+            println "🎉 JitPack 构建验证成功！可以使用远程依赖了！"
+        }
+    }
+}
+
+task quickCheck {
+    doLast {
+        println "🔍 快速检查 JitPack 构建状态..."
+        
+        try {
+            def artifacts = configurations.testDeps.resolvedConfiguration.resolvedArtifacts
+            println "✅ 构建成功！解析到 ${artifacts.size()} 个依赖："
+            artifacts.each { artifact ->
+                println "   - ${artifact.moduleVersion.id.group}:${artifact.moduleVersion.id.name}:${artifact.moduleVersion.id.version}"
+            }
+        } catch (Exception e) {
+            println "❌ 构建未完成: ${e.message.contains('401') ? '401 Unauthorized - 还在构建中' : e.message}"
+            println "💡 运行 './gradlew -b monitor_jitpack.gradle monitorBuild' 进行持续监控"
+        }
+    }
+}
