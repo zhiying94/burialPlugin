@@ -1,8 +1,15 @@
+buildscript {
+  dependencies {
+    classpath 'com.github.zhiying94.burialPlugin:burial-plugin:2.0.7'
+  }
+}
+
 plugins {
   id 'com.android.application'
   id 'org.jetbrains.kotlin.android'
-  id 'com.github.zhiying94.burialPlugin.burial-plugin' version '2.0.6'
 }
+
+apply plugin: 'com.github.zhiying94.burialPlugin.burial-plugin'
 
 android {
   namespace 'com.burial.test'
