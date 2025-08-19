@@ -58,7 +58,7 @@ afterEvaluate {
         groupId = 'com.github.zhiying94'
         artifactId = 'burialTimer'
         version = project.version
-        artifact sourcesJar
+        // 不需要手动添加 sourcesJar，因为 withSourcesJar() 已经处理了
         // 暂时注释掉 Javadoc
         // artifact javadocJar
         
