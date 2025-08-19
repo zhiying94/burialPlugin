@@ -3,8 +3,8 @@
 echo "🚀 检查 JitPack 构建状态..."
 
 # 检查 burialTimer
-echo "🔍 检查 burialTimer:2.0.15..."
-response=$(curl -s -o /dev/null -w "%{http_code}" "https://jitpack.io/com/github/zhiying94/burialTimer/2.0.15/burialTimer-2.0.15.pom")
+echo "🔍 检查 burialTimer:2.0.16..."
+response=$(curl -s -o /dev/null -w "%{http_code}" "https://jitpack.io/com/github/zhiying94/burialTimer/2.0.16/burialTimer-2.0.16.pom")
 case $response in
     200)
         echo "✅ burialTimer 可用 (HTTP $response)"
@@ -21,8 +21,8 @@ case $response in
 esac
 
 # 检查 burial-plugin
-echo "🔍 检查 burial-plugin:2.0.15..."
-response=$(curl -s -o /dev/null -w "%{http_code}" "https://jitpack.io/com/github/zhiying94/burial-plugin/2.0.15/burial-plugin-2.0.15.pom")
+echo "🔍 检查 burial-plugin:2.0.16..."
+response=$(curl -s -o /dev/null -w "%{http_code}" "https://jitpack.io/com/github/zhiying94/burial-plugin/2.0.16/burial-plugin-2.0.16.pom")
 case $response in
     200)
         echo "✅ burial-plugin 可用 (HTTP $response)"
@@ -43,7 +43,7 @@ echo "🔗 JitPack 构建状态页面:"
 echo "   https://jitpack.io/com/github/zhiying94/burialPlugin"
 echo ""
 echo "📋 使用方法:"
-echo "   插件: id 'com.github.zhiying94.burial-plugin' version '2.0.15'"
-echo "   依赖: implementation 'com.github.zhiying94:burialTimer:2.0.15'"
+echo "   插件: id 'com.github.zhiying94.burial-plugin' version '2.0.16'"
+echo "   依赖: implementation 'com.github.zhiying94:burialTimer:2.0.16'"
 echo ""
 echo "✨ 检查完成"

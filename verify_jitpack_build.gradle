@@ -17,10 +17,10 @@ configurations {
 
 dependencies {
     // 测试 burialTimer 远程依赖
-    testDeps 'com.github.zhiying94:burialTimer:2.0.15'
+    testDeps 'com.github.zhiying94:burialTimer:2.0.16'
     
     // 测试插件类路径
-    testDeps 'com.github.zhiying94:burial-plugin:2.0.15'
+    testDeps 'com.github.zhiying94:burial-plugin:2.0.16'
 }
 
 task checkBuildStatus {
