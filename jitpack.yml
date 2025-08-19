@@ -1,8 +1,11 @@
-jvm:
-  - 17
+jdk:
+  - openjdk17
 
 before_install:
-  - ./gradlew clean
+  - chmod +x ./gradlew
 
-build:
-  - ./gradlew :burial_plugin:build :burialTimer:build
+install:
+  - ./gradlew --no-daemon clean
+
+script:
+  - ./gradlew --no-daemon :burial_plugin:build :burialTimer:build --stacktrace --info
