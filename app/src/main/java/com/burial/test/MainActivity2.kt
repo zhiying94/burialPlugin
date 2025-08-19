@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import com.burial.test.R.layout
-import com.yan.burial.method.timer.BurialTimer
 
 class MainActivity2 : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,16 +1,22 @@
-// buildscript {
-//   dependencies {
-//     classpath project(':burial_plugin')
-//   }
-// }
+buildscript {
+  repositories {
+    maven { url 'https://jitpack.io' }
+    gradlePluginPortal()
+    mavenCentral()
+  }
+  dependencies {
+    // 使用远程插件依赖
+    classpath 'com.github.zhiying94.burialPlugin:burial-plugin:2.0.17'
+  }
+}
 
 plugins {
   id 'com.android.application'
   id 'org.jetbrains.kotlin.android'
 }
 
-// 等待 JitPack 构建完成后启用
-// apply plugin: 'com.github.zhiying94.burial-plugin'
+// 应用远程插件
+apply plugin: 'com.github.zhiying94.burial-plugin'
 
 android {
   namespace 'com.burial.test'
@@ -51,9 +57,8 @@ dependencies {
   implementation 'org.apache.commons:commons-lang3:3.13.0'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation 'androidx.annotation:annotation:1.7.1'
-  // 等待 JitPack 构建完成后切换到远程依赖
-  implementation project(':burialTimer')
-  // implementation 'com.github.zhiying94:burialTimer:2.0.17'
+  // 使用远程依赖
+  implementation 'com.github.zhiying94.burialPlugin:burialTimer:2.0.17'
 }
 
 repositories {
@@ -63,10 +68,10 @@ repositories {
   maven { url "https://jitpack.io" }
 }
 
-// 等待 JitPack 构建完成后启用插件配置
-// burialExt {
-//   enable = true
-//   logLevel = 'DEBUG'
-//   includePackages = ['com.burial.test']
-//   excludePackages = ['com.burial.test.ignorelist']
-// }
+// 启用插件配置
+burialExt {
+  logEnable = true
+//  logLevel = 'DEBUG'
+  foreList = ['com.burial.test']
+  ignoreList = ['com.burial.test.ignorelist']
+}
