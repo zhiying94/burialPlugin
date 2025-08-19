@@ -27,7 +27,7 @@ gradlePlugin {
     vcsUrl = 'https://github.com/zhiying94/burialPlugin.git'
     plugins {
         burialPlugin {
-            id = 'com.github.zhiying94.burial-plugin'
+            id = 'com.github.zhiying94.burialPlugin.burial-plugin'
             displayName = 'Burial Plugin'
             description = 'A Gradle plugin for method timing and monitoring'
             implementationClass = 'com.yan.burial.BurialPlugin'
