@@ -21,8 +21,8 @@ if (file.exists()) {
   }
 }
 
-group = 'io.github.zhiying94.burial'
-version = '2.0.2'
+group = 'com.github.zhiying94'
+version = '2.0.3'
 
 android {
   namespace 'com.yan.burial.method.timer'
@@ -151,7 +151,7 @@ afterEvaluate {
     publications {
       release(MavenPublication) {
         from components.getByName("release")
-        groupId = 'io.github.zhiying94.burial'
+        groupId = 'com.github.zhiying94'
         artifactId = 'burialTimer'
         version = project.version
       }

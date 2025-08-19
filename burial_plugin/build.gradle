@@ -19,8 +19,8 @@ dependencies {
     compileOnly 'org.ow2.asm:asm-commons:9.6'
 }
 
-group = 'io.github.zhiying94.burial'
-version = '2.0.2'
+group = 'com.github.zhiying94'
+version = '2.0.3'
 
 gradlePlugin {
     website = 'https://github.com/zhiying94/burialPlugin'
@@ -63,7 +63,7 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.getByName("java")
-                groupId = 'io.github.zhiying94.burial'
+                groupId = 'com.github.zhiying94'
                 artifactId = 'burial-plugin'
                 version = project.version
             }
