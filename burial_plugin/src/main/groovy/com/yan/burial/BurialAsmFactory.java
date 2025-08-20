@@ -23,9 +23,14 @@ public abstract class BurialAsmFactory implements AsmClassVisitorFactory<Instrum
     @Override
     public boolean isInstrumentable(ClassData classData) {
         String className = classData.getClassName().replace('/', '.');
+        if (className.startsWith("kotlin.") || className.startsWith("java.") || className.startsWith("android.")) {
+            return false;
+        }
         if (className.contains(BurialExtension.PLUGIN_LIBRARY)) return false;
         if (sExtension != null) {
-            if (!sExtension.foreList.isEmpty()) return sExtension.isInWhitelist(className);
+            if (!sExtension.foreList.isEmpty()) {
+                return sExtension.isInWhitelist(className);
+            }
             return !sExtension.isInBlacklist(className);
         }
         return true;
