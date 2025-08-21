@@ -20,7 +20,11 @@ public class BurialPlugin implements Plugin<Project> {
 
         BurialAsmFactory.setExtension(burialExtension);
         androidComponents.onVariants(androidComponents.selector().all(), variant -> {
-            variant.getInstrumentation().transformClassesWith(BurialAsmFactory.class, InstrumentationScope.ALL, parameters -> null);
+            // 根据配置动态设置插桩范围
+            InstrumentationScope scope = burialExtension.instrumentOnlyProjectCode ? 
+                InstrumentationScope.PROJECT : InstrumentationScope.ALL;
+            
+            variant.getInstrumentation().transformClassesWith(BurialAsmFactory.class, scope, parameters -> null);
             variant.getInstrumentation().setAsmFramesComputationMode(FramesComputationMode.COPY_FRAMES);
         });
     }

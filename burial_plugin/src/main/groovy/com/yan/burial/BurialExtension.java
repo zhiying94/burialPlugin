@@ -9,6 +9,8 @@ public class BurialExtension {
   public List<String> ignoreList = new ArrayList<>();
   public boolean logEnable = false;
   public boolean listenerWithMethodDetail = true;
+  // 新增参数：控制是否只插桩项目代码，默认为true
+  public boolean instrumentOnlyProjectCode = true;
 
   @Override public String toString() {
     return "BurialExtension{" +
@@ -16,6 +18,7 @@ public class BurialExtension {
         ", blacklist=" + ignoreList +
         ", logEnable=" + logEnable +
         ", listenerWithMethodDetail=" + listenerWithMethodDetail +
+        ", instrumentOnlyProjectCode=" + instrumentOnlyProjectCode +
         '}';
   }
 

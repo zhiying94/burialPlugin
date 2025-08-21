@@ -3,10 +3,11 @@ buildscript {
     maven { url 'https://jitpack.io' }
     gradlePluginPortal()
     mavenCentral()
+    mavenLocal()  // 添加本地 Maven 仓库
   }
   dependencies {
-    // 使用远程插件依赖
-    classpath 'com.github.zhiying94.burialPlugin:burial-plugin:2.0.17'
+    // 使用本地插件依赖
+    classpath 'com.github.zhiying94:burial-plugin:2.0.18'
   }
 }
 
@@ -15,7 +16,7 @@ plugins {
   id 'org.jetbrains.kotlin.android'
 }
 
-// 应用远程插件
+// 应用本地插件
 apply plugin: 'com.github.zhiying94.burial-plugin'
 
 android {
@@ -74,4 +75,12 @@ burialExt {
 //  logLevel = 'DEBUG'
   foreList = ['com.burial.test']
   ignoreList = ['com.burial.test.ignorelist']
+  
+  // 控制插桩范围：
+  // true = 只插桩项目代码（使用 InstrumentationScope.PROJECT）
+  // false = 插桩所有代码（使用 InstrumentationScope.ALL）
+  instrumentOnlyProjectCode = true
+  
+  // 示例：如果要插桩所有代码，可以设置为：
+  // instrumentOnlyProjectCode = false
 }
