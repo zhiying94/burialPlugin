@@ -7,7 +7,7 @@ buildscript {
   }
   dependencies {
     // 使用本地插件依赖
-    classpath 'com.github.zhiying94:burial-plugin:2.0.18'
+    classpath 'com.github.zhiying94:burial-plugin:2.0.17'
   }
 }
 
