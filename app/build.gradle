@@ -7,7 +7,7 @@ buildscript {
   }
   dependencies {
     // 使用远程插件依赖
-    classpath 'com.github.zhiying94.burialPlugin:burial-plugin:2.0.17'
+    classpath 'com.github.zhiying94.burialPlugin:burial-plugin:2.0.19'
   }
 }
 
@@ -59,7 +59,7 @@ dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation 'androidx.annotation:annotation:1.7.1'
   // 使用远程依赖
-  implementation 'com.github.zhiying94.burialPlugin:burialTimer:2.0.17'
+  implementation 'com.github.zhiying94.burialPlugin:burialTimer:2.0.19'
 }
 
 repositories {
